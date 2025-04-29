@@ -1,12 +1,15 @@
 from pydantic import BaseModel
 
 
-class ShortUrlBase(BaseModel):
-    target_url: str
-    slug: str
+class FilmInfoBase(BaseModel):
+    id: int
+    name: str
+    description: str
+    genre: str
+    age_restriction: int
 
 
-class ShortUrl(ShortUrlBase):
+class FilmInfo(FilmInfoBase):
     """
-    Модель сокращенной ссылки
+    Модель описания фильма
     """
