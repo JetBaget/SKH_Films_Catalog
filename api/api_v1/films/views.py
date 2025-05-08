@@ -1,19 +1,17 @@
 from random import randint
 
-from annotated_types import Len
 from typing import Annotated
 
 from fastapi import (
     Depends,
     APIRouter,
     status,
-    Form,
 )
 
 from .crud import FILMS
 from .dependencies import get_film_info
 
-from schemas.film_info import FilmInfo
+from schemas.film_info import FilmInfo, FilmInfoCreate
 
 
 router = APIRouter(
@@ -33,29 +31,11 @@ def read_films_list():
     status_code=status.HTTP_201_CREATED,
 )
 def add_film(
-    name: Annotated[
-        str,
-        Len(min_length=3, max_length=20),
-        Form(),
-    ],
-    description: Annotated[
-        str,
-        Len(min_length=10, max_length=100),
-        Form(),
-    ],
-    genre: Annotated[
-        str,
-        Len(min_length=3, max_length=20),
-        Form(),
-    ],
-    age_restriction: Annotated[int, Form()] = 10,
+    film_info_create: FilmInfoCreate,
 ):
     return FilmInfo(
-        id=randint(1, 100),
-        name=name,
-        description=description,
-        genre=genre,
-        age_restriction=age_restriction,
+        id=randint(4, 100),
+        **film_info_create.model_dump(),
     )
 
 
