@@ -12,6 +12,10 @@ class FilmInfoBase(BaseModel):
 
 
 class FilmInfoCreate(FilmInfoBase):
+    slug: Annotated[
+        str,
+        Len(min_length=3, max_length=10),
+    ]
     description: Annotated[
         str,
         Len(min_length=10, max_length=25),
@@ -23,4 +27,4 @@ class FilmInfo(FilmInfoBase):
     Модель описания фильма
     """
 
-    id: int
+    slug: str

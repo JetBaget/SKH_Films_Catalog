@@ -34,13 +34,12 @@ def add_film(
     film_info_create: FilmInfoCreate,
 ):
     return FilmInfo(
-        id=randint(4, 100),
         **film_info_create.model_dump(),
     )
 
 
 @router.get(
-    path="/info/{id}/",
+    path="/info/{slug}/",
     response_model=FilmInfo,
 )
 def read_film_info(
