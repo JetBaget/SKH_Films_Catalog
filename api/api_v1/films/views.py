@@ -8,7 +8,7 @@ from fastapi import (
     status,
 )
 
-from .crud import FILMS
+from .crud import storage
 from .dependencies import get_film_info
 
 from schemas.film_info import FilmInfo, FilmInfoCreate
@@ -22,7 +22,7 @@ router = APIRouter(
 
 @router.get(path="/", response_model=list[FilmInfo])
 def read_films_list():
-    return FILMS
+    return storage.get()
 
 
 @router.post(
@@ -33,6 +33,7 @@ def read_films_list():
 def add_film(
     film_info_create: FilmInfoCreate,
 ):
+    storage.create(film_info_create)
     return FilmInfo(
         **film_info_create.model_dump(),
     )

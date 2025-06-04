@@ -14,11 +14,11 @@ class FilmInfoBase(BaseModel):
 class FilmInfoCreate(FilmInfoBase):
     slug: Annotated[
         str,
-        Len(min_length=3, max_length=10),
+        Len(min_length=3, max_length=15),
     ]
     description: Annotated[
         str,
-        Len(min_length=10, max_length=25),
+        Len(min_length=10, max_length=100),
     ]
 
 
