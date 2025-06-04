@@ -5,20 +5,27 @@ from pydantic import BaseModel
 
 
 class FilmInfoBase(BaseModel):
+    """
+    Базовая модель фильма
+    """
+
     name: str
-    description: str
     genre: str
     age_restriction: int
-
-
-class FilmInfoCreate(FilmInfoBase):
-    slug: Annotated[
-        str,
-        Len(min_length=3, max_length=15),
-    ]
     description: Annotated[
         str,
         Len(min_length=10, max_length=100),
+    ]
+
+
+class FilmInfoCreate(FilmInfoBase):
+    """
+    Модель для создания фильма
+    """
+
+    slug: Annotated[
+        str,
+        Len(min_length=3, max_length=10),
     ]
 
 
@@ -28,3 +35,9 @@ class FilmInfo(FilmInfoBase):
     """
 
     slug: str
+
+
+class FilmInfoUpdate(FilmInfoBase):
+    """
+    Модель для обновления информации о фильме
+    """

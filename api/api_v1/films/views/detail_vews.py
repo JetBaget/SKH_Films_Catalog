@@ -9,7 +9,7 @@ from fastapi import (
 from api.api_v1.films.crud import storage
 from api.api_v1.films.dependencies import get_film
 
-from schemas.film_info import FilmInfo
+from schemas.film_info import FilmInfo, FilmInfoUpdate
 
 
 router = APIRouter(
@@ -25,6 +25,12 @@ router = APIRouter(
         },
     },
 )
+
+
+FilmInfoBySlug = Annotated[
+    FilmInfo,
+    Depends(get_film),
+]
 
 
 @router.get(
@@ -45,9 +51,20 @@ def read_film(
     status_code=status.HTTP_204_NO_CONTENT,
 )
 def delete_film(
-    film_info: Annotated[
-        FilmInfo,
-        Depends(get_film),
-    ],
+    film_info: FilmInfoBySlug,
 ) -> None:
     storage.delete(film_info)
+
+
+@router.put(
+    path="/",
+    status_code=status.HTTP_200_OK,
+)
+def update_film(
+    film_info: FilmInfoBySlug,
+    film_info_in: FilmInfoUpdate,
+) -> None:
+    storage.update(
+        film_info=film_info,
+        film_info_in=film_info_in,
+    )
