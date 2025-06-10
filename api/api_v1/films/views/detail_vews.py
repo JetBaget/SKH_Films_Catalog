@@ -9,7 +9,11 @@ from fastapi import (
 from api.api_v1.films.crud import storage
 from api.api_v1.films.dependencies import get_film
 
-from schemas.film_info import FilmInfo, FilmInfoUpdate
+from schemas.film_info import (
+    FilmInfo,
+    FilmInfoUpdate,
+    FilmInfoPartialUpdate,
+)
 
 
 router = APIRouter(
@@ -68,3 +72,19 @@ def update_film(
         film_info=film_info,
         film_info_in=film_info_in,
     )
+
+
+@router.patch(
+    path="/",
+    response_model=FilmInfo,
+    status_code=status.HTTP_200_OK,
+)
+def update_partial_film(
+    film_info: FilmInfoBySlug,
+    film_info_in: FilmInfoPartialUpdate,
+) -> FilmInfo:
+    storage.update_partial(
+        film_info=film_info,
+        film_info_in=film_info_in,
+    )
+    return film_info
